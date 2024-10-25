@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Library Management</h1>
+<a href="{{ url_for('add_book') }}" class="btn btn-primary mb-3">Add Book</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.year }}</td>
+            <td>{{ 'Yes' if book.available else 'No' }}</td>
+            <td>
+                <a href="{{ url_for('edit_book', id=book.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                <a href="{{ url_for('delete_book', id=book.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                {% if book.available %}
+                <a href="{{ url_for('borrow_book', id=book.id) }}" class="btn btn-warning btn-sm">Borrow</a>
+                {% else %}
+                <a href="{{ url_for('return_book', id=book.id) }}" class="btn btn-success btn-sm">Return</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
